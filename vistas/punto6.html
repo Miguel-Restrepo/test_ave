@@ -1,0 +1,126 @@
+<main role="main" class="container">
+  <div class="jumbotron">
+    <h1>Punto 6</h1>
+
+    <br>
+    <div class="row">
+      <h4>Busqueda de pokemon:</h4>
+    </div>
+    <div class="row">
+      <div class="col-auto">
+        <input name="numero" id="numero" type="text" class="form-control" placeholder="numero de pokemon" required="">
+      </div>
+      <div class="col-auto">
+        <h3><button type="button" class="btn btn-info" onclick="statspokemon();">Ver</button></h3>
+      </div>
+    </div>
+    <table class="table" id="tablasta" style="display:none;">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Atributo</th>
+          <th scope="col">valor</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">1</th>
+          <td id="stat1">Nombre</td>
+          <td id="statval1"></td>
+        </tr>
+        <tr>
+          <th scope="row">2</th>
+          <td id="stat2">Número</td>
+          <td id="statval2"></td>
+        </tr>
+        <tr>
+          <th scope="row">3</th>
+          <td id="stat3">Tipo</td>
+          <td id="statval3"></td>
+        </tr>
+        <tr>
+          <th scope="row">4</th>
+          <td id="stat4">Peso</td>
+          <td id="statval4"></td>
+        </tr>
+        <tr>
+          <th scope="row">5</th>
+          <td id="stat5">Altura</td>
+          <td id="statval5"></td>
+        </tr>
+        <tr>
+          <th scope="row">6</th>
+          <td id="stat6">Imagen</td>
+          <td id="statval6"></td>
+        </tr>
+
+      </tbody>
+    </table>
+
+
+
+
+
+
+
+
+
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+
+  var sumapoke = document.getElementById("sumapoke");
+  var total2tipos = document.getElementById("total2tipos");
+  var numeropoke = document.getElementById("numeropoke");
+  var tipobool = document.getElementById("tipobool");
+
+
+
+  function statspokemon() {
+    var numero = document.getElementById("numero");
+    let stats = [];
+
+    axios({
+      method: 'get',
+      url: 'https://pokeapi.co/api/v2/pokemon/' + numero.value,
+      responseType: 'JSON'
+    })
+      .then(function (response) {
+        datos = JSON.parse(response.data);
+        console.log(datos);
+        document.getElementById("statval1").textContent = datos.forms[0].name;
+        document.getElementById("statval2").textContent = datos.id;
+        let tipos = "";
+        let i = 0;
+        datos.types.forEach(element => {
+          if (i != 0) {
+            tipos = tipos + ", " + element.type.name;
+          } else {
+            tipos = element.type.name;
+          }
+
+          i++;
+        });
+        document.getElementById("statval3").textContent = tipos;
+        document.getElementById("statval4").textContent = datos.weight;
+        document.getElementById("statval5").textContent = datos.height;
+        document.getElementById("statval6").innerHTML=`<img src="`+datos.sprites.back_default+`"> `;
+
+
+        document.getElementById("tablasta").style = "";
+        return datos;
+
+
+      })
+      .catch(function (error) {
+        return 0;
+
+      })
+      .finally(function () {
+        // always executed
+      });
+  }
+
+</script>

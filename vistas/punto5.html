@@ -1,0 +1,166 @@
+<main role="main" class="container">
+  <div class="jumbotron">
+    <h1>Punto 5</h1>
+    <form id="formulario">
+      <div class="row">
+        <div class="col">Contraseña
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+
+          <input name="password" id="password" type="password" class="form-control" onkeyup="validarCampo();"
+            placeholder="Introduce la clave" alt="strongPass" required="" minlength="16">
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col">
+          <button type="submit" id="boton" class="btn btn-success btn-block" disabled>Validar</button>
+        </div>
+
+      </div>
+
+    </form>
+    <div class="row">
+      <div class="col">
+        <h4>La contraseña actualmente:</h4>
+        <ul id="min" class="text-danger"> Debe tener al menos 16 caracteres.</ul>
+        <ul id="minus" class="text-danger"> Debe tener letras minúsculas y mayúsculas.</ul>
+        <ul id="letigual" class="text-success"> No puede tener 2 letras iguales consecutivas.</ul>
+        <ul id="num" class="text-danger"> Debe contener al menos 4 números.</ul>
+        <ul id="numigual" class="text-success"> No puede tener 2 números iguales consecutivos.</ul>
+        <ul id="especial" class="text-danger"> Debe tener al menos 2 caracteres especiales (!@#$%ˆ&*-_+=?) pero ninguno
+          de
+          ellos puede repetirse en ninguna posición y además los caracteres no pueden
+          estar juntos.</ul>
+        <ul id="cero" class="text-success"> No se puede usar el número 0.</ul>
+        <ul id="space" class="text-success"> No se puede colocar espacios.</ul>
+      </div>
+    </div>
+  </div>
+</main>
+<script>
+ 
+  var min = document.getElementById("min");
+  var boton = document.getElementById("boton");
+  
+  var minus = document.getElementById("minus");
+  var letigual = document.getElementById("letigual");
+  var num = document.getElementById("num");
+  var numigual = document.getElementById("numigual");
+  var especial = document.getElementById("especial");
+  var cero = document.getElementById("cero");
+  var space = document.getElementById("space");
+  function validarCampo() {
+boton.disabled=false;
+    var contrasena = document.getElementById('password').value;
+    if (contrasena.split('').length < 16) {
+
+      min.className = "text-danger";
+      boton.disabled=true;
+
+    } else {
+      min.className = "text-success";
+    }
+    if (!tiene_mayusculas(contrasena) || !tiene_minuscula(contrasena)) {
+      minus.className = "text-danger";
+      boton.disabled=true;
+
+    } else {
+      minus.className = "text-success";
+    }
+    let array = contrasena.split('')
+    let contnumero = 0;
+    let noreple = true;
+    let nospa = true;
+    let nocero = true;
+    for (let i = 1; i < array.length; i++) {
+      if (array[i - 1] == array[i]) {
+        letigual.className = "text-danger";
+        numigual.className = "text-danger";
+        boton.disabled=true;
+        noreple = false;
+      }
+      if (numeros.indexOf(contrasena.charAt(i), 0) != -1) {
+        contnumero++;
+      }
+      if (array[i] == " ") {
+        nospa = false;
+        space.className = "text-danger";
+        boton.disabled=true;
+      }
+      if (array[i] == "0") {
+        nocero = false;
+        cero.className = "text-danger";
+        boton.disabled=true;
+      }
+
+    }
+    if (noreple) {
+      letigual.className = "text-success";
+      numigual.className = "text-success";
+    }
+    if (nospa) {
+      space.className = "text-success";
+    }
+    if (nocero) {
+      cero.className = "text-success";
+    }
+
+    if (contnumero < 4) {
+      num.className = "text-danger";
+      boton.disabled=true;
+    } else {
+      num.className = "text-success";
+    }
+    if (!validar_especiales(contrasena)) {
+
+      especial.className = "text-danger";
+      boton.disabled=true;
+    } else {
+      especial.className = "text-success";
+    }
+
+
+
+    this.submit();
+  }
+  var numeros = "123456789"
+  var letras_mayusculas = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
+  var letras_minusculas = "abcdefghijklmnñopqrstuvwxyz";
+  var especiales = " (!@#$%ˆ&*-_+=?)";
+  function validar_especiales(texto) {
+    let cuenta = 0;
+    let ya = "";
+    for (i = 1; i < texto.length; i++) {
+      if (especiales.indexOf(texto.charAt(i), 0) != -1 && ya.indexOf(texto.charAt(i), 0) == -1 && especiales.indexOf(texto.charAt(i - 1), 0) == -1) {
+        ya = ya + texto.charAt(i);
+        cuenta++;
+
+      }
+
+    }
+    if (cuenta >= 2) {
+      return true;
+
+    }
+    return false;
+  }
+  function tiene_mayusculas(texto) {
+    for (i = 0; i < texto.length; i++) {
+      if (letras_mayusculas.indexOf(texto.charAt(i), 0) != -1) {
+        return true;
+      }
+    }
+    return false;
+  }
+  function tiene_minuscula(texto) {
+    for (i = 0; i < texto.length; i++) {
+      if (letras_minusculas.indexOf(texto.charAt(i), 0) != -1) {
+        return true;
+      }
+    }
+    return false;
+  }
+</script>

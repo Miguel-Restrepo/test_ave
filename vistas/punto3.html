@@ -1,0 +1,111 @@
+<main role="main" class="container">
+  <div class="jumbotron">
+    <h1>Punto 3</h1>
+    <form id="formulario">
+      <div class="row">
+        <div class="col">Contraseña
+        </div>
+        <div class="col">
+
+          <input name="password" id="password" type="password" class="form-control" placeholder="Introduce la clave"
+            alt="strongPass" required="" minlength="16">
+        </div>
+
+        <div class="col">
+          <button type="button" class="btn btn-success">Validar</button>
+        </div>
+
+      </div>
+    </form>
+
+
+  </div>
+</main>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("formulario").addEventListener('submit', validarFormulario);
+  });
+  function validarFormulario(evento) {
+    evento.preventDefault();
+    var contrasena = document.getElementById('password').value;
+    if (!tiene_mayusculas(contrasena)) {
+      alert('No hay mayusculas');
+      return;
+    }
+    if (!tiene_minuscula(contrasena)) {
+      alert('No hay minusculas');
+      return;
+    }
+    let array = contrasena.split('')
+    let contnumero = 0;
+    for (let i = 1; i < array.length; i++) {
+      if (array[i - 1] == array[i]) {
+        alert('hay caracteres repetidos');
+        return;
+      }
+      if (numeros.indexOf(contrasena.charAt(i), 0) != -1) {
+        contnumero++;
+      }
+      if (array[i] == " ") {
+
+        alert('No debe haber espacios');
+        return;
+      }
+      if (array[i] == "0") {
+
+        alert('No debe usar el numero 0');
+        return;
+      }
+
+    }
+    if (contnumero < 4) {
+      alert('Debe haber minimo 4 números');
+      return;
+    }
+    if (!validar_especiales(contrasena)) {
+      alert('Debe tener al menos 2 caracteres especiales (!@#$%ˆ&*-_+=?) pero ninguno de ellos puede repetirse en ninguna posición y además los caracteres no pueden estar juntos');
+      return;
+    }
+
+
+
+    this.submit();
+  }
+  var numeros = "123456789"
+  var letras_mayusculas = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
+  var letras_minusculas = "abcdefghijklmnñopqrstuvwxyz";
+  var especiales = " (!@#$%ˆ&*-_+=?)";
+  function validar_especiales(texto) {
+    let cuenta = 0;
+    let ya = "";
+    for (i = 1; i < texto.length; i++) {
+      if (especiales.indexOf(texto.charAt(i), 0) != -1 && ya.indexOf(texto.charAt(i), 0) == -1 && especiales.indexOf(texto.charAt(i - 1), 0) == -1) {
+        ya = ya + texto.charAt(i);
+        cuenta++;
+
+      }
+
+    }
+    if (cuenta >= 2) {
+      return true;
+
+    }
+    return false;
+  }
+  function tiene_mayusculas(texto) {
+    for (i = 0; i < texto.length; i++) {
+      if (letras_mayusculas.indexOf(texto.charAt(i), 0) != -1) {
+        return true;
+      }
+    }
+    return false;
+  }
+  function tiene_minuscula(texto) {
+    for (i = 0; i < texto.length; i++) {
+      if (letras_minusculas.indexOf(texto.charAt(i), 0) != -1) {
+        return true;
+      }
+    }
+    return false;
+  }
+</script>

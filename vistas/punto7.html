@@ -1,0 +1,194 @@
+<main role="main" class="container">
+  <div class="jumbotron">
+    <h1>Punto 7</h1>
+
+    <br>
+    <div class="row">
+      <div class="col-auto">
+        <h4><a id="accion">Creación de</a> la Tarea:</h4>
+      </div>
+      <div class="col">
+        <h3><button type="button" class="btn btn-info btn-block" onclick="modoAdd();">Crear nueva tarea</button></h3>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col">
+        <h4>Nombre de la Tarea:</h4>
+      </div>
+      <div class="col">
+        <input name="nombre" id="nombre" type="text" class="form-control" placeholder="Nombre de la tarea" required="">
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col">
+        <h4>Fecha de la Tarea:</h4>
+      </div>
+      <div class="col">
+        <input name="fecha" id="fecha" type="date" class="form-control" placeholder="Fecha de la Tarea" required="">
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col">
+        <h4>Prioridad de la Tarea:</h4>
+      </div>
+      <div class="col">
+        <input name="prioridad" id="prioridad" type="text" class="form-control" placeholder="Prioridad de la Tarea"
+          required="">
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col">
+        <h4>Descripción de la Tarea:</h4>
+      </div>
+      <div class="col">
+        <input name="descripcion" id="descripcion" type="text" class="form-control"
+          placeholder="Descripción de la Tarea" required="">
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col">
+        <h3><button type="button" id="botonaccion" class="btn btn-success btn-block"
+            onclick="accionar();">Crear</button></h3>
+      </div>
+      <div class="col">
+        <h3><button type="button" class="btn btn-info btn-block" onclick="limpiar();">Limpiar</button></h3>
+      </div>
+    </div>
+    <table class="table" id="tablasta" style="display:none;">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Nombre</th>
+          <th scope="col">Fecha</th>
+          <th scope="col">Prioridad</th>
+          <th scope="col">Descripción</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="contenido">
+
+
+      </tbody>
+    </table>
+
+
+
+
+
+
+
+
+
+  </div>
+</main>
+
+
+<script>
+
+  var contenido = document.getElementById("contenido");
+  var accionText = document.getElementById("accion");
+  var botonaccion = document.getElementById("botonaccion");
+  var nombre = document.getElementById("nombre");
+  var fecha = document.getElementById("fecha");
+  var prioridad = document.getElementById("prioridad");
+  var descripcion = document.getElementById("descripcion");
+  var id = 0;
+  var tareas = [];
+  var accion = "agregar";
+  function agregar() {
+    let tarea = Object();
+    tarea.id = tareas.length + 1;
+    tarea.nombre = nombre.value;
+    tarea.fecha = fecha.value;
+    tarea.prioridad = prioridad.value;
+    tarea.descripcion = descripcion.value;
+    tareas.push(tarea);
+    limpiar();
+
+  }
+  function editar() {
+    let tarea = Object();
+    tarea.id = id;
+    tarea.nombre = nombre.value;
+    tarea.fecha = fecha.value;
+    tarea.prioridad = prioridad.value;
+    tarea.descripcion = descripcion.value;
+    tareas[id-1] = tarea;
+
+  }
+  function limpiar() {
+    nombre.value = "";
+    fecha.value = "";
+    prioridad.value = "";
+    descripcion.value = "";
+
+  }
+  function modoAdd() {
+    accion = "agregar";
+    accionText.innerText = "Creación de ";
+    botonaccion.innerText = "Crear";
+    limpiar();
+  }
+
+  function modoEdit(select) {
+    accion = "editar";
+    accionText.innerText = "Editando";
+    botonaccion.innerText = "Editar";
+    nombre.value = tareas[select - 1].nombre;
+    fecha.value = tareas[select - 1].fecha;
+    id=select;
+    prioridad.value = tareas[select - 1].prioridad;
+    descripcion.value = tareas[select - 1].descripcion;
+
+  }
+  function eliminar(select) {
+    let nuevas = [];
+    cont = 1;
+    tareas.forEach(element => {
+      if (cont != select) {
+        nuevas.push(element);
+      }
+      cont++;
+    });
+    tareas=nuevas;
+
+    actualizarTabla();
+  }
+  function actualizarTabla() {
+    contenido.innerHTML = ``;
+    document.getElementById("tablasta").style = "display:none;";
+    cont = 1;
+    tareas.forEach(element => {
+      element.id=cont;
+      let nuevo = `<tr>
+          <th scope="row">`+ element.nombre + `</th>
+          <td >`+ element.fecha + `</td>
+          <td >`+ element.prioridad + `</td>
+          <td >`+ element.descripcion + `</td>
+          <td >`+ `<a class="nav-link active" onclick="modoEdit(` + cont + `);"><i class="fas fa-edit fa-lg fa-fw"></i></a> 
+            <a class="nav-link active" onclick="eliminar(`+ cont + `);"><i class="fas fa-trash fa-lg fa-fw"></i></a>` + `</td>
+        </tr>`;
+      contenido.innerHTML += nuevo;
+      cont++;
+      document.getElementById("tablasta").style = "";
+    });
+  }
+
+
+
+  function accionar() {
+    if (accion == "agregar") {
+      agregar();
+      actualizarTabla();
+    } else {
+      editar();
+      actualizarTabla();
+    }
+
+  }
+
+</script>

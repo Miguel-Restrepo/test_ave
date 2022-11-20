@@ -1,0 +1,157 @@
+<main role="main" class="container">
+  <div class="jumbotron">
+    <h1>Punto 4</h1>
+
+    <div class="row">
+      <div class="col">Arreglo
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+
+        <input name="arreglo" id="arreglo" type="text" class="form-control"
+          placeholder="Introduce el arreglo asi 1,3,5,2..." required="">
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col">
+        <button type="submit" id="boton" onclick="convertir();" class="btn btn-success btn-block">Sacar
+          informacion</button>
+      </div>
+
+    </div>
+
+
+    <div class="row">
+      <div class="col">
+        <h4>Información correspondiente:</h4>
+        <div class="row">
+          <div class="col">
+            <ul>Cantidad de números:</ul>
+          </div>
+          <div class="col">
+            <ul id="cantidad">0</ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <ul>Porcentaje de números pares:</ul>
+          </div>
+          <div class="col">
+            <ul id="pares">0%</ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <ul>Porcentaje de números impares:</ul>
+          </div>
+          <div class="col">
+            <ul id="impares">0%</ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <ul>Porcentaje de números mayores a 1000:</ul>
+          </div>
+          <div class="col">
+            <ul id="mayores">0%</ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <ul>Mayor número:</ul>
+          </div>
+          <div class="col">
+            <ul id="mayor">0</ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <ul>Menor número:</ul>
+          </div>
+          <div class="col">
+            <ul id="menor">0</ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <ul>Porcentaje(%) del menor número:</ul>
+          </div>
+          <div class="col">
+            <ul id="pormenor">0%</ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <ul>Porcentaje(%) del promedio de todos los número:</ul>
+          </div>
+          <div class="col">
+            <ul id="porpro">0%</ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<script>
+
+  var cantidad = document.getElementById("cantidad");
+  var pares = document.getElementById("pares");
+  var impares = document.getElementById("impares");
+  var mayores = document.getElementById("mayores");
+  var menor = document.getElementById("menor");
+  var pormenor = document.getElementById("pormenor");
+  var mayor = document.getElementById("mayor");
+  var porpro = document.getElementById("porpro");
+
+
+
+  function convertir() {
+    boton.disabled = false;
+    var arreglo = document.getElementById('arreglo').value.split(',');
+    if (arreglo.length == 0) {
+      alert("No se ha introducido un arreglo valido")
+      return;
+    }
+    cantidad.textContent = arreglo.length;
+    let cantpares = 0;
+    let cantimpares = 0;
+    let cantimayores = 0;
+    let nummayor = arreglo[0];
+    let nummenor = arreglo[0];
+    let total = 0;
+    for (let i = 0; i < arreglo.length; i++) {
+      if (arreglo[i] % 2 == 0) {
+        cantpares++;
+      } else {
+        cantimpares++;
+      }
+      if (arreglo[i] > 1000) {
+        cantimayores++;
+      }
+      if (arreglo[i] > nummayor) {
+        nummayor = arreglo[i];
+      }
+      if (arreglo[i] < nummenor) {
+        nummenor = arreglo[i];
+      }
+      total = total + parseFloat(arreglo[i]);
+    }
+    pares.textContent = (cantpares * 100) / arreglo.length + "%";
+    impares.textContent = (cantimpares * 100) / arreglo.length + "%";
+    mayores.textContent = (cantimayores * 100) / arreglo.length + "%";
+    mayor.textContent = nummayor;
+    menor.textContent = nummenor;
+    pormenor.textContent = (nummenor * 100) / nummayor + "%";
+    porpro.textContent = ((total / arreglo.length) * 100) / nummayor + "%";
+
+
+
+
+
+
+
+
+  }
+</script>

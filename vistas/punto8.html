@@ -1,0 +1,75 @@
+<main role="main" class="container">
+  <div class="jumbotron">
+    <h1>Punto 8</h1>
+
+    <div class="row">
+      <div class="col">Imagenes:
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+
+        <input name="cantidad" id="cantidad" type="number" class="form-control"
+          placeholder="Introduce la cantidad de imagenes" min="1" max="15" required="">
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col">
+        <button type="submit" id="boton" onclick="cargarIimagenes();" class="btn btn-success btn-block">Generar
+          imagenes</button>
+      </div>
+
+    </div>
+
+
+    <div class="row">
+      <div class="col">
+        <h4>Imagenes:</h4>
+        <div class="row-auto">
+        </div>
+      </div>
+    </div>
+    <div id="contenido">
+
+    </div>
+
+  </div>
+</main>
+<script>
+
+  var contenido = document.getElementById("contenido");
+  var cantidad = document.getElementById("cantidad");
+
+
+  function cargarIimagenes() {
+    if (cantidad.value < 1 || cantidad.value > 15) {
+      alert("introduzca una cantidad menor a 16 y mayor a 0");
+      return;
+
+    }
+    contenido.innerHTML = ``;
+    let nuevo = `  <div class="row">`;
+    let divisor = 5;
+    if (cantidad.value < 5) {
+      divisor = 2;
+
+    }
+    for (let i = 1; i <= cantidad.value; i++) {
+      nuevo = nuevo + `<div class="col">
+          <img class="img-fluid" style="width:100%"
+            src="https://media-exp1.licdn.com/dms/image/D4E0BAQHjWt0YYFP7_Q/company-logo_100_100/0/1665699412071?e=1677110400&v=beta&t=hLrzWeg-kwgH0OkoSrVVm4z98t8kbkDOpXa5aUkNPiA">
+        </div>`;
+      if (i % divisor == 0) {
+        nuevo = nuevo + ` </div>
+                          <div class="row">`;
+
+      }
+
+
+    }
+    contenido.innerHTML += nuevo;
+
+
+  }
+</script>
